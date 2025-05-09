@@ -30,6 +30,13 @@ interface PersonInfo {
   address: string
   phone: string
   relationship: string
+  agency: string
+}
+
+interface OfficerInfo {
+  fullName: string
+  badgeNumber: string
+  caseNumber: string
 }
 
 interface ProtocolInfo {
@@ -40,21 +47,41 @@ interface ProtocolInfo {
   spokeWithAdvocate: boolean
 }
 
+const AGENCIES = [
+  "Absentee Shawnee Tribal Police",
+  "Asher Police Department",
+  "Citizen Potawatomi Nation Tribal Police",
+  "Maud Police Department",
+  "McLoud Police Department",
+  "Oklahoma Highway Patrol – Troop A",
+  "Pottawatomie County Sheriff's Office",
+  "Sac and Fox Nation Police",
+  "Shawnee Police Department",
+  "Tecumseh Police Department"
+]
+
 function OklahomaLAPApp() {
   const { theme, toggleTheme } = useTheme()
+  const [officerInfo, setOfficerInfo] = useState<OfficerInfo>({
+    fullName: '',
+    badgeNumber: '',
+    caseNumber: ''
+  })
   const [victimInfo, setVictimInfo] = useState<PersonInfo>({
     name: '',
     dateOfBirth: '',
     address: '',
     phone: '',
-    relationship: ''
+    relationship: '',
+    agency: ''
   })
   const [suspectInfo, setSuspectInfo] = useState<PersonInfo>({
     name: '',
     dateOfBirth: '',
     address: '',
     phone: '',
-    relationship: ''
+    relationship: '',
+    agency: ''
   })
   const [protocolInfo, setProtocolInfo] = useState<ProtocolInfo>({
     additionalConcerns: '',
@@ -146,7 +173,11 @@ function OklahomaLAPApp() {
     const dangerLevel = getDangerLevel()
     const report = `Oklahoma LAP Assessment Report\n\n` +
       `Date: ${new Date().toLocaleDateString()}\n` +
-      `Time: ${new Date().toLocaleTimeString()}\n\n` +
+      `Time: ${new Date().toLocaleTimeString()}\n` +
+      `Agency: ${victimInfo.agency}\n` +
+      `Case Number: ${officerInfo.caseNumber}\n` +
+      `Officer: ${officerInfo.fullName}\n` +
+      `Badge Number: ${officerInfo.badgeNumber}\n\n` +
       `Victim Information:\n` +
       `Name: ${victimInfo.name}\n` +
       `Date of Birth: ${victimInfo.dateOfBirth}\n` +
@@ -258,6 +289,54 @@ function OklahomaLAPApp() {
               <div className="space-y-6">
                 <div className="border-b border-gray-200 dark:border-gray-700 pb-4">
                   <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+                    <Shield className="h-6 w-6 mr-2" />
+                    Officer Information
+                  </h2>
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div>
+                      <label htmlFor="officer-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Officer's Full Name
+                      </label>
+                      <input
+                        type="text"
+                        id="officer-name"
+                        value={officerInfo.fullName}
+                        onChange={(e) => setOfficerInfo({...officerInfo, fullName: e.target.value})}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="badge-number" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Badge Number
+                      </label>
+                      <input
+                        type="text"
+                        id="badge-number"
+                        value={officerInfo.badgeNumber}
+                        onChange={(e) => setOfficerInfo({...officerInfo, badgeNumber: e.target.value})}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="case-number" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Agency Case Number
+                      </label>
+                      <input
+                        type="text"
+                        id="case-number"
+                        value={officerInfo.caseNumber}
+                        onChange={(e) => setOfficerInfo({...officerInfo, caseNumber: e.target.value})}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="border-b border-gray-200 dark:border-gray-700 pb-4">
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
                     <User className="h-6 w-6 mr-2" />
                     Victim Information
                   </h2>
@@ -326,6 +405,25 @@ function OklahomaLAPApp() {
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                         required
                       />
+                    </div>
+                    <div className="sm:col-span-2">
+                      <label htmlFor="agency" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Agency Name
+                      </label>
+                      <select
+                        id="agency"
+                        value={victimInfo.agency}
+                        onChange={(e) => setVictimInfo({...victimInfo, agency: e.target.value})}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                        required
+                      >
+                        <option value="">Select an agency</option>
+                        {AGENCIES.map((agency) => (
+                          <option key={agency} value={agency}>
+                            {agency}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                   </div>
                 </div>
