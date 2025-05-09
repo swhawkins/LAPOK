@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="2048" height="2048" viewBox="0 0 2048 2048" fill="none" xmlns="http://www.w3.org/2000/svg" class="splash-screen">
+  <!-- Background -->
+  <rect width="2048" height="2048" class="background"/>
+  
+  <!-- Content Container -->
+  <g transform="translate(1024, 1024)">
+    <!-- Icon -->
+    <g transform="translate(-256, -256) scale(2)">
+      <!-- Shield Shape -->
+      <path d="M256 64L384 128V256C384 320 320 384 256 448C192 384 128 320 128 256V128L256 64Z" class="shield"/>
+      <!-- Checkmark -->
+      <path d="M192 256L224 288L320 192" class="checkmark" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    
+    <!-- App Name -->
+    <text x="0" y="200" 
+          font-family="system-ui, -apple-system, sans-serif" 
+          font-size="96" 
+          font-weight="bold" 
+          class="title"
+          text-anchor="middle">
+      Oklahoma LAP
+    </text>
+    <text x="0" y="320" 
+          font-family="system-ui, -apple-system, sans-serif" 
+          font-size="48" 
+          class="subtitle"
+          text-anchor="middle">
+      Assessment
+    </text>
+  </g>
+</svg> 
