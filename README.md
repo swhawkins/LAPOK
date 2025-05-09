@@ -1,61 +1,63 @@
-# Oklahoma LAP Assessment
+# LAP WPA (Lethality Assessment Protocol Web Application)
 
-A Progressive Web App (PWA) for conducting Lethality Assessments in domestic violence cases in Pottawatomie County, Oklahoma.
+A web-based application for conducting lethality assessments in cases of intimate partner violence. This application helps law enforcement and social service providers evaluate risk factors and determine appropriate interventions.
 
 ## Features
 
-- 📱 Progressive Web App (PWA) support
-- 💾 Offline functionality
-- 📊 15-question lethality assessment
-- 📄 Report generation
-- 🔄 Auto-save progress
-- 📱 Mobile-friendly design
+- Interactive assessment questionnaire
+- Automatic scoring and risk level determination
+- Victim and suspect information collection
+- Protocol-based referral system
+- Offline functionality (PWA)
+- Dark mode support
 
-## Tech Stack
+## Getting Started
 
-- React
-- TypeScript
-- Vite
-- Tailwind CSS
-- Lucide React Icons
-- PWA Support
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm (v9 or higher)
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone [repository-url]
+cd lap-wpa
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
+```bash
+npm run dev
+```
+
+4. Build for production:
+```bash
+npm run build
+```
+
+5. Preview production build:
+```bash
+npm run preview
+```
 
 ## Development
 
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
+- `npm run type-check` - Run TypeScript type checking
 
-2. Start development server:
-   ```bash
-   npm run dev
-   ```
+## Deployment
 
-3. Build for production:
-   ```bash
-   npm run build
-   ```
-
-4. Preview production build:
-   ```bash
-   npm run preview
-   ```
-
-## PWA Features
-
-- Installable on desktop and mobile devices
-- Works offline
-- Auto-updates when new versions are available
-- Native-like experience
-
-## Browser Support
-
-- Chrome (recommended)
-- Firefox
-- Safari
-- Edge
+The application can be deployed to any static hosting service. The build output is in the `dist` directory.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details. 
+[Your License Here] 
