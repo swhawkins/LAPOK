@@ -60,4 +60,4 @@ The application can be deployed to any static hosting service. The build output 
 
 ## License
 
-[Your License Here] 
+[Your License Here] # LAPOK
