@@ -491,6 +491,9 @@ function OklahomaLAPApp() {
                         value={victimInfo.phone}
                         onChange={(e) => setVictimInfo({...victimInfo, phone: e.target.value})}
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                        placeholder="(405) 555-1234"
+                        pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
+                        title="Please enter a valid 10-digit phone number"
                         required
                       />
                     </div>
@@ -504,6 +507,9 @@ function OklahomaLAPApp() {
                         value={victimInfo.alternatePhone}
                         onChange={(e) => setVictimInfo({...victimInfo, alternatePhone: e.target.value})}
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                        placeholder="(405) 555-1234"
+                        pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
+                        title="Please enter a valid 10-digit phone number"
                       />
                     </div>
                     <div>
@@ -629,6 +635,9 @@ function OklahomaLAPApp() {
                         value={suspectInfo.phone}
                         onChange={(e) => setSuspectInfo({...suspectInfo, phone: e.target.value})}
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                        placeholder="(405) 555-1234"
+                        pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
+                        title="Please enter a valid 10-digit phone number"
                         required
                       />
                     </div>
