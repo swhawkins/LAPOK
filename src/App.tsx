@@ -12,8 +12,7 @@ import {
   Shield,
   AlertTriangle,
   Phone,
-  Globe,
-  Mail
+  Globe
 } from 'lucide-react'
 import { ThemeProvider, useTheme } from './components/ThemeProvider'
 import './theme.css'
