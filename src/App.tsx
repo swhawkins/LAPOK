@@ -148,6 +148,32 @@ function OklahomaLAPApp() {
     })
   }, [])
 
+  // Add phone formatting function
+  const formatPhoneNumber = (value: string) => {
+    // Remove all non-numeric characters
+    const numbers = value.replace(/\D/g, '');
+    
+    // Format the number as (XXX) XXX-XXXX
+    if (numbers.length <= 3) {
+      return numbers;
+    } else if (numbers.length <= 6) {
+      return `(${numbers.slice(0, 3)}) ${numbers.slice(3)}`;
+    } else {
+      return `(${numbers.slice(0, 3)}) ${numbers.slice(3, 6)}-${numbers.slice(6, 10)}`;
+    }
+  };
+
+  // Add phone input handlers
+  const handlePersonPhoneChange = (e: React.ChangeEvent<HTMLInputElement>, setInfo: React.Dispatch<React.SetStateAction<PersonInfo>>, field: string) => {
+    const formattedNumber = formatPhoneNumber(e.target.value);
+    setInfo(prev => ({ ...prev, [field]: formattedNumber }));
+  };
+
+  const handleOfficerPhoneChange = (e: React.ChangeEvent<HTMLInputElement>, setInfo: React.Dispatch<React.SetStateAction<OfficerInfo>>, field: string) => {
+    const formattedNumber = formatPhoneNumber(e.target.value);
+    setInfo(prev => ({ ...prev, [field]: formattedNumber }));
+  };
+
   const handleAnswer = (id: number, answer: Answer) => {
     setQuestions(questions.map(q => 
       q.id === id ? { ...q, answer } : q
@@ -489,11 +515,10 @@ function OklahomaLAPApp() {
                         type="tel"
                         id="victim-phone"
                         value={victimInfo.phone}
-                        onChange={(e) => setVictimInfo({...victimInfo, phone: e.target.value})}
+                        onChange={(e) => handlePersonPhoneChange(e, setVictimInfo, 'phone')}
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                         placeholder="(405) 555-1234"
-                        pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
-                        title="Please enter a valid 10-digit phone number"
+                        maxLength={14}
                         required
                       />
                     </div>
@@ -505,11 +530,10 @@ function OklahomaLAPApp() {
                         type="tel"
                         id="victim-alternate-phone"
                         value={victimInfo.alternatePhone}
-                        onChange={(e) => setVictimInfo({...victimInfo, alternatePhone: e.target.value})}
+                        onChange={(e) => handlePersonPhoneChange(e, setVictimInfo, 'alternatePhone')}
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                         placeholder="(405) 555-1234"
-                        pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
-                        title="Please enter a valid 10-digit phone number"
+                        maxLength={14}
                       />
                     </div>
                     <div>
@@ -633,11 +657,10 @@ function OklahomaLAPApp() {
                         type="tel"
                         id="suspect-phone"
                         value={suspectInfo.phone}
-                        onChange={(e) => setSuspectInfo({...suspectInfo, phone: e.target.value})}
+                        onChange={(e) => handlePersonPhoneChange(e, setSuspectInfo, 'phone')}
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                         placeholder="(405) 555-1234"
-                        pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
-                        title="Please enter a valid 10-digit phone number"
+                        maxLength={14}
                         required
                       />
                     </div>
