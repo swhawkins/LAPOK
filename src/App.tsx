@@ -10,7 +10,10 @@ import {
   MinusCircle,
   User,
   Shield,
-  AlertTriangle
+  AlertTriangle,
+  Phone,
+  Globe,
+  Mail
 } from 'lucide-react'
 import { ThemeProvider, useTheme } from './components/ThemeProvider'
 import './theme.css'
@@ -29,14 +32,19 @@ interface PersonInfo {
   dateOfBirth: string
   address: string
   phone: string
+  alternatePhone: string
+  bestTimeToCall: string
   relationship: string
   agency: string
+  gender: string
+  race: string
 }
 
 interface OfficerInfo {
   fullName: string
   badgeNumber: string
   caseNumber: string
+  agency: string
 }
 
 interface ProtocolInfo {
@@ -65,23 +73,32 @@ function OklahomaLAPApp() {
   const [officerInfo, setOfficerInfo] = useState<OfficerInfo>({
     fullName: '',
     badgeNumber: '',
-    caseNumber: ''
+    caseNumber: '',
+    agency: ''
   })
   const [victimInfo, setVictimInfo] = useState<PersonInfo>({
     name: '',
     dateOfBirth: '',
     address: '',
     phone: '',
+    alternatePhone: '',
+    bestTimeToCall: '',
     relationship: '',
-    agency: ''
+    agency: '',
+    gender: '',
+    race: ''
   })
   const [suspectInfo, setSuspectInfo] = useState<PersonInfo>({
     name: '',
     dateOfBirth: '',
     address: '',
     phone: '',
+    alternatePhone: '',
+    bestTimeToCall: '',
     relationship: '',
-    agency: ''
+    agency: '',
+    gender: '',
+    race: ''
   })
   const [protocolInfo, setProtocolInfo] = useState<ProtocolInfo>({
     additionalConcerns: '',
@@ -108,6 +125,7 @@ function OklahomaLAPApp() {
   const [isGenerating, setIsGenerating] = useState(false)
   const [showInstallPrompt, setShowInstallPrompt] = useState(false)
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
+  const [showNewAssessmentButton, setShowNewAssessmentButton] = useState(false)
 
   // Load saved answers from localStorage
   useEffect(() => {
@@ -165,6 +183,49 @@ function OklahomaLAPApp() {
     setShowInfoForm(false)
   }
 
+  const resetAssessment = () => {
+    setOfficerInfo({
+      fullName: '',
+      badgeNumber: '',
+      caseNumber: '',
+      agency: ''
+    })
+    setVictimInfo({
+      name: '',
+      dateOfBirth: '',
+      address: '',
+      phone: '',
+      alternatePhone: '',
+      bestTimeToCall: '',
+      relationship: '',
+      agency: '',
+      gender: '',
+      race: ''
+    })
+    setSuspectInfo({
+      name: '',
+      dateOfBirth: '',
+      address: '',
+      phone: '',
+      alternatePhone: '',
+      bestTimeToCall: '',
+      relationship: '',
+      agency: '',
+      gender: '',
+      race: ''
+    })
+    setProtocolInfo({
+      additionalConcerns: '',
+      screeningResult: 'none',
+      contactedProgram: false,
+      contactReason: '',
+      spokeWithAdvocate: false
+    })
+    setQuestions(questions.map(q => ({ ...q, answer: null })))
+    setShowInfoForm(true)
+    setShowNewAssessmentButton(false)
+  }
+
   const generateReport = async () => {
     setIsGenerating(true)
     // Simulate network delay
@@ -172,9 +233,12 @@ function OklahomaLAPApp() {
     
     const dangerLevel = getDangerLevel()
     const report = `Oklahoma LAP Assessment Report\n\n` +
+      `[Oklahoma State Seal]\n` +
+      `Lethality Assessment Protocol\n` +
+      `Pottawatomie County Law Enforcement\n\n` +
       `Date: ${new Date().toLocaleDateString()}\n` +
       `Time: ${new Date().toLocaleTimeString()}\n` +
-      `Agency: ${victimInfo.agency}\n` +
+      `Agency: ${officerInfo.agency}\n` +
       `Case Number: ${officerInfo.caseNumber}\n` +
       `Officer: ${officerInfo.fullName}\n` +
       `Badge Number: ${officerInfo.badgeNumber}\n\n` +
@@ -183,14 +247,20 @@ function OklahomaLAPApp() {
       `Date of Birth: ${victimInfo.dateOfBirth}\n` +
       `Address: ${victimInfo.address}\n` +
       `Phone: ${victimInfo.phone}\n` +
-      `Relationship to Suspect: ${victimInfo.relationship}\n\n` +
+      (victimInfo.alternatePhone ? `Alternate Phone: ${victimInfo.alternatePhone}\n` : '') +
+      (victimInfo.bestTimeToCall ? `Best Time to Call: ${new Date(victimInfo.bestTimeToCall).toLocaleString()}\n` : '') +
+      `Relationship to Suspect: ${victimInfo.relationship}\n` +
+      `Gender: ${victimInfo.gender}\n` +
+      `Race: ${victimInfo.race}\n\n` +
       `Suspect Information:\n` +
       `Name: ${suspectInfo.name}\n` +
       `Date of Birth: ${suspectInfo.dateOfBirth}\n` +
       `Address: ${suspectInfo.address}\n` +
       `Phone: ${suspectInfo.phone}\n` +
-      `Relationship to Victim: ${suspectInfo.relationship}\n\n` +
-      `Risk Level: ${dangerLevel.toUpperCase()}\n\n` +
+      `Relationship to Victim: ${suspectInfo.relationship}\n` +
+      `Gender: ${suspectInfo.gender}\n` +
+      `Race: ${suspectInfo.race}\n\n` +
+      `RISK LEVEL: ${dangerLevel.toUpperCase()}\n\n` +
       `Questions Answered:\n` +
       questions.map(q => 
         `${q.id}. ${q.text}\nAnswer: ${q.answer === null ? 'Not Answered' : q.answer === 'refused' ? 'Refused' : q.answer ? 'Yes' : 'No'}`
@@ -209,7 +279,12 @@ function OklahomaLAPApp() {
       `Assessment Result:\n` +
       (dangerLevel === 'high' ? 
         'Protocol referral is triggered based on responses.' : 
-        'Protocol referral is not triggered based on responses.')
+        'Protocol referral is not triggered based on responses.') +
+      '\n\n' +
+      'Domestic Violence Service Agency Project: SAFE\n' +
+      '24/7 Hotline: <a href="tel:1-800-821-9953" className="underline hover:text-red-800 dark:hover:text-red-100">1-800-821-9953</a>\n' +
+      'Website: <a href="https://www.projectsafeok.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-red-800 dark:hover:text-red-100">www.projectsafeok.com</a>\n' +
+      'For immediate assistance, tap the number above to call.'
 
     // Create and download text file
     const blob = new Blob([report], { type: 'text/plain' })
@@ -223,6 +298,7 @@ function OklahomaLAPApp() {
     window.URL.revokeObjectURL(url)
     
     setIsGenerating(false)
+    setShowNewAssessmentButton(true)
   }
 
   const handleInstall = async () => {
@@ -254,12 +330,19 @@ function OklahomaLAPApp() {
               )}
             </button>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 transition-colors duration-300">
-            Oklahoma LAP Assessment
-          </h1>
-          <p className="text-gray-600 dark:text-gray-300 transition-colors duration-300">
-            Pottawatomie County Law Enforcement
-          </p>
+          <div className="flex flex-col items-center">
+            <img 
+              src="/images/ok-logo.svg" 
+              alt="Oklahoma State Seal" 
+              className="h-24 w-24 mb-4"
+            />
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 transition-colors duration-300">
+              Oklahoma LAP Assessment
+            </h1>
+            <p className="text-gray-600 dark:text-gray-300 transition-colors duration-300">
+              Pottawatomie County Law Enforcement
+            </p>
+          </div>
         </div>
 
         {showInstallPrompt && (
@@ -332,6 +415,25 @@ function OklahomaLAPApp() {
                         required
                       />
                     </div>
+                    <div>
+                      <label htmlFor="agency" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Agency Name
+                      </label>
+                      <select
+                        id="agency"
+                        value={officerInfo.agency}
+                        onChange={(e) => setOfficerInfo({...officerInfo, agency: e.target.value})}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                        required
+                      >
+                        <option value="">Select an agency</option>
+                        {AGENCIES.map((agency) => (
+                          <option key={agency} value={agency}>
+                            {agency}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 </div>
 
@@ -394,6 +496,30 @@ function OklahomaLAPApp() {
                       />
                     </div>
                     <div>
+                      <label htmlFor="victim-alternate-phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Alternate Phone Number
+                      </label>
+                      <input
+                        type="tel"
+                        id="victim-alternate-phone"
+                        value={victimInfo.alternatePhone}
+                        onChange={(e) => setVictimInfo({...victimInfo, alternatePhone: e.target.value})}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="victim-best-time" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Best Time to Call
+                      </label>
+                      <input
+                        type="datetime-local"
+                        id="victim-best-time"
+                        value={victimInfo.bestTimeToCall}
+                        onChange={(e) => setVictimInfo({...victimInfo, bestTimeToCall: e.target.value})}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                      />
+                    </div>
+                    <div>
                       <label htmlFor="victim-relationship" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                         Relationship to Suspect
                       </label>
@@ -406,23 +532,43 @@ function OklahomaLAPApp() {
                         required
                       />
                     </div>
-                    <div className="sm:col-span-2">
-                      <label htmlFor="agency" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Agency Name
+                    <div>
+                      <label htmlFor="victim-gender" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Gender
                       </label>
                       <select
-                        id="agency"
-                        value={victimInfo.agency}
-                        onChange={(e) => setVictimInfo({...victimInfo, agency: e.target.value})}
+                        id="victim-gender"
+                        value={victimInfo.gender}
+                        onChange={(e) => setVictimInfo({...victimInfo, gender: e.target.value})}
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                         required
                       >
-                        <option value="">Select an agency</option>
-                        {AGENCIES.map((agency) => (
-                          <option key={agency} value={agency}>
-                            {agency}
-                          </option>
-                        ))}
+                        <option value="">Select gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Non-binary">Non-binary</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label htmlFor="victim-race" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Race
+                      </label>
+                      <select
+                        id="victim-race"
+                        value={victimInfo.race}
+                        onChange={(e) => setVictimInfo({...victimInfo, race: e.target.value})}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                        required
+                      >
+                        <option value="">Select race</option>
+                        <option value="American Indian or Alaska Native">American Indian or Alaska Native</option>
+                        <option value="Asian">Asian</option>
+                        <option value="Black or African American">Black or African American</option>
+                        <option value="Native Hawaiian or Other Pacific Islander">Native Hawaiian or Other Pacific Islander</option>
+                        <option value="White">White</option>
+                        <option value="Two or More Races">Two or More Races</option>
+                        <option value="Other">Other</option>
                       </select>
                     </div>
                   </div>
@@ -499,6 +645,45 @@ function OklahomaLAPApp() {
                         required
                       />
                     </div>
+                    <div>
+                      <label htmlFor="suspect-gender" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Gender
+                      </label>
+                      <select
+                        id="suspect-gender"
+                        value={suspectInfo.gender}
+                        onChange={(e) => setSuspectInfo({...suspectInfo, gender: e.target.value})}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                        required
+                      >
+                        <option value="">Select gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Non-binary">Non-binary</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label htmlFor="suspect-race" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Race
+                      </label>
+                      <select
+                        id="suspect-race"
+                        value={suspectInfo.race}
+                        onChange={(e) => setSuspectInfo({...suspectInfo, race: e.target.value})}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                        required
+                      >
+                        <option value="">Select race</option>
+                        <option value="American Indian or Alaska Native">American Indian or Alaska Native</option>
+                        <option value="Asian">Asian</option>
+                        <option value="Black or African American">Black or African American</option>
+                        <option value="Native Hawaiian or Other Pacific Islander">Native Hawaiian or Other Pacific Islander</option>
+                        <option value="White">White</option>
+                        <option value="Two or More Races">Two or More Races</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -559,10 +744,17 @@ function OklahomaLAPApp() {
                 ))}
 
                 <div className="border-b border-gray-200 dark:border-gray-700 pb-4">
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4 flex items-center">
-                    <AlertTriangle className="h-5 w-5 mr-2 text-yellow-500" />
-                    Additional Safety Assessment
-                  </h3>
+                  <div className="flex flex-col items-center mb-6">
+                    <img 
+                      src="/images/ok-logo.svg" 
+                      alt="Oklahoma State Seal" 
+                      className="h-24 w-24 mb-4"
+                    />
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4 flex items-center">
+                      <AlertTriangle className="h-5 w-5 mr-2 text-yellow-500" />
+                      Additional Safety Assessment
+                    </h3>
+                  </div>
                   
                   <div className="space-y-4">
                     <div>
@@ -617,7 +809,7 @@ function OklahomaLAPApp() {
                     </div>
 
                     {protocolInfo.screeningResult !== 'none' && (
-                      <div className="space-y-4">
+                      <div className="space-y-4 mt-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Did the officer contact the local OAG Certified DV/SA Program or Tribal DV/SA Program?
@@ -657,37 +849,10 @@ function OklahomaLAPApp() {
                               onChange={(e) => setProtocolInfo({...protocolInfo, contactReason: e.target.value})}
                               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                               rows={2}
+                              placeholder="Enter reason for not contacting the program..."
                             />
                           </div>
                         )}
-
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            After advising the victim of high risk for danger/lethality, did the victim speak with the hotline advocate?
-                          </label>
-                          <div className="flex space-x-4">
-                            <label className="flex items-center">
-                              <input
-                                type="radio"
-                                name="spoke-with-advocate"
-                                checked={protocolInfo.spokeWithAdvocate}
-                                onChange={() => setProtocolInfo({...protocolInfo, spokeWithAdvocate: true})}
-                                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
-                              />
-                              <span className="ml-2 text-gray-700 dark:text-gray-300">Yes</span>
-                            </label>
-                            <label className="flex items-center">
-                              <input
-                                type="radio"
-                                name="spoke-with-advocate"
-                                checked={!protocolInfo.spokeWithAdvocate}
-                                onChange={() => setProtocolInfo({...protocolInfo, spokeWithAdvocate: false})}
-                                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
-                              />
-                              <span className="ml-2 text-gray-700 dark:text-gray-300">No</span>
-                            </label>
-                          </div>
-                        </div>
                       </div>
                     )}
                   </div>
@@ -702,7 +867,34 @@ function OklahomaLAPApp() {
                   </p>
                 </div>
 
-                <div className="mt-8 flex justify-center">
+                <div className="bg-red-50 dark:bg-red-900/30 p-4 rounded-md">
+                  <h3 className="text-lg font-bold text-red-800 dark:text-red-200 mb-2">
+                    Domestic Violence Service Agency Project: SAFE
+                  </h3>
+                  <p className="text-red-700 dark:text-red-300 mb-2 flex items-center">
+                    <Phone className="h-5 w-5 mr-2" />
+                    24/7 Hotline: <a href="tel:1-800-821-9953" className="underline hover:text-red-800 dark:hover:text-red-100 ml-1">1-800-821-9953</a>
+                  </p>
+                  <p className="text-red-700 dark:text-red-300 mb-2 flex items-center">
+                    <Globe className="h-5 w-5 mr-2" />
+                    Website: <a href="https://www.projectsafeok.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-red-800 dark:hover:text-red-100 ml-1">www.projectsafeok.com</a>
+                  </p>
+                  <p className="text-sm text-red-600 dark:text-red-400">
+                    For immediate assistance, tap the number above to call.
+                  </p>
+                </div>
+
+                <div className="bg-yellow-50 dark:bg-yellow-900/30 p-4 rounded-md mt-4">
+                  <h3 className="text-lg font-bold text-yellow-800 dark:text-yellow-200 mb-2">
+                    Important Notice
+                  </h3>
+                  <p className="text-yellow-700 dark:text-yellow-300">
+                    If the officer is unable to make contact with a hotline advocate at the local program after at least two attempts within a 10 minute period, contact the State SAFELINE at{' '}
+                    <a href="tel:1-800-522-7233" className="underline hover:text-yellow-800 dark:hover:text-yellow-100">1-800-522-SAFE (7233)</a>.
+                  </p>
+                </div>
+
+                <div className="mt-8 flex justify-center space-x-4">
                   <button
                     onClick={generateReport}
                     disabled={isGenerating}
@@ -720,6 +912,15 @@ function OklahomaLAPApp() {
                       </>
                     )}
                   </button>
+                  {showNewAssessmentButton && (
+                    <button
+                      onClick={resetAssessment}
+                      className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200"
+                    >
+                      <FileText className="-ml-1 mr-3 h-5 w-5" />
+                      Start New Assessment
+                    </button>
+                  )}
                 </div>
               </div>
             </>
