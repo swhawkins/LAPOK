@@ -564,6 +564,7 @@ function OklahomaLAPApp() {
                         <option value="American Indian or Alaska Native">American Indian or Alaska Native</option>
                         <option value="Asian">Asian</option>
                         <option value="Black or African American">Black or African American</option>
+                        <option value="Hispanic">Hispanic</option>
                         <option value="Native Hawaiian or Other Pacific Islander">Native Hawaiian or Other Pacific Islander</option>
                         <option value="White">White</option>
                         <option value="Two or More Races">Two or More Races</option>
@@ -677,6 +678,7 @@ function OklahomaLAPApp() {
                         <option value="American Indian or Alaska Native">American Indian or Alaska Native</option>
                         <option value="Asian">Asian</option>
                         <option value="Black or African American">Black or African American</option>
+                        <option value="Hispanic">Hispanic</option>
                         <option value="Native Hawaiian or Other Pacific Islander">Native Hawaiian or Other Pacific Islander</option>
                         <option value="White">White</option>
                         <option value="Two or More Races">Two or More Races</option>
