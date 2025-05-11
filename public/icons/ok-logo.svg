@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="100%" height="100%" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;">
-    <g transform="matrix(1.06776,0,0,1.11504,-62.6339,-64.2372)">
-        <path d="M583.658,134.665C583.658,56.513 517.399,-6.937 435.786,-6.937L140.042,-6.937C58.429,-6.937 -7.83,56.513 -7.83,134.665L-7.83,425.5C-7.83,503.652 58.429,567.102 140.042,567.102L435.786,567.102C517.399,567.102 583.658,503.652 583.658,425.5L583.658,134.665Z" style="fill:rgb(30,64,175);"/>
-    </g>
-    <circle cx="256" cy="256" r="256" style="fill:rgb(30,64,175);"/>
-    <path d="M256,64L384,128L384,256C384,320 320,384 256,448C192,384 128,320 128,256L128,128L256,64Z" style="fill:white;fill-rule:nonzero;"/>
-    <path d="M192,256L224,288L320,192" style="fill:none;fill-rule:nonzero;stroke:rgb(30,64,175);stroke-width:32px;"/>
-</svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="256" cy="256" r="256" fill="#1e40af"/>
+  
+  <!-- Shield Shape -->
+  <path d="M256 64L384 128V256C384 320 320 384 256 448C192 384 128 320 128 256V128L256 64Z" fill="white"/>
+  
+  <!-- Checkmark -->
+  <path d="M192 256L224 288L320 192" stroke="#1e40af" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> 
