@@ -26,9 +26,9 @@ async function createAppIcon(size) {
   const { size: iconSize, name } = size;
   const outputPath = path.join(outputDir, `${name}.png`);
 
-  // Create a base image with the app logo
-  const logo = await sharp(path.join(__dirname, '../public/images/ok-logo.svg'))
-    .resize(Math.round(iconSize * 0.7), Math.round(iconSize * 0.7)) // Logo size relative to icon
+  // Create a base image with the shield logo
+  const logo = await sharp(path.join(__dirname, '../public/images/shield.svg'))
+    .resize(Math.round(iconSize * 0.8), Math.round(iconSize * 0.8)) // Shield size relative to icon
     .toBuffer();
 
   // Create the icon with blue background
