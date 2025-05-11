@@ -51,7 +51,7 @@ async function createSplashScreen(size, isDark = false) {
       width,
       height,
       channels: 4,
-      background: isDark ? { r: 31, g: 41, b: 55, alpha: 1 } : { r: 255, g: 255, b: 255, alpha: 1 }
+      background: isDark ? { r: 30, g: 58, b: 138, alpha: 1 } : { r: 37, g: 99, b: 235, alpha: 1 }
     }
   })
     .composite([
