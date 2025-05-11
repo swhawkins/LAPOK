@@ -67,6 +67,26 @@ const AGENCIES = [
   "Tecumseh Police Department"
 ]
 
+// Add Disclaimer component
+const Disclaimer = () => (
+  <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-md mt-8">
+    <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-2">
+      Disclaimer
+    </h3>
+    <div className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
+      <p>
+        This website is an independent tool developed for the purposes of supporting lethality assessment efforts in Pottawatomie County, Oklahoma. It is not affiliated with, endorsed by, or operated on behalf of the State of Oklahoma or any of its agencies or subsidiaries.
+      </p>
+      <p>
+        No user data entered into this website is collected, stored, or transmitted. All information provided by users is used solely to generate a printable text-based report, which must be saved or exported manually by the user.
+      </p>
+      <p>
+        To protect user privacy and ensure secure access, this website utilizes SSL encryption with automatically renewing TLS certificates issued by Let's Encrypt.
+      </p>
+    </div>
+  </div>
+);
+
 function OklahomaLAPApp() {
   const { theme, toggleTheme } = useTheme()
   const [officerInfo, setOfficerInfo] = useState<OfficerInfo>({
@@ -758,6 +778,8 @@ function OklahomaLAPApp() {
                   Continue to Assessment
                 </button>
               </div>
+
+              <Disclaimer />
             </form>
           ) : (
             <>
@@ -985,22 +1007,7 @@ function OklahomaLAPApp() {
                   )}
                 </div>
 
-                <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-md mt-8">
-                  <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-2">
-                    Disclaimer
-                  </h3>
-                  <div className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
-                    <p>
-                      This website is an independent tool developed for the purposes of supporting lethality assessment efforts in Pottawatomie County, Oklahoma. It is not affiliated with, endorsed by, or operated on behalf of the State of Oklahoma or any of its agencies or subsidiaries.
-                    </p>
-                    <p>
-                      No user data entered into this website is collected, stored, or transmitted. All information provided by users is used solely to generate a printable text-based report, which must be saved or exported manually by the user.
-                    </p>
-                    <p>
-                      To protect user privacy and ensure secure access, this website utilizes SSL encryption with automatically renewing TLS certificates issued by Let's Encrypt.
-                    </p>
-                  </div>
-                </div>
+                <Disclaimer />
               </div>
             </>
           )}
