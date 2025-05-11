@@ -163,18 +163,20 @@ function OklahomaLAPApp() {
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e);
-      // Only show install prompt on mobile devices
-      if (window.matchMedia('(max-width: 768px)').matches) {
-        setShowInstallPrompt(true);
-      }
+      setShowInstallPrompt(true);
     };
 
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    // Check if it's an iOS device
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    const isInPWA = (navigator as any).standalone;
 
-    // Check if already installed
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      setShowInstallPrompt(false);
+    // Show install prompt for iOS if not already installed
+    if (isIOS && !isStandalone && !isInPWA) {
+      setShowInstallPrompt(true);
     }
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -412,7 +414,13 @@ function OklahomaLAPApp() {
                     Install Oklahoma LAP Assessment
                   </p>
                   <p className="text-blue-100 text-sm">
-                    Add to home screen for quick access
+                    {/iPad|iPhone|iPod/.test(navigator.userAgent) ? (
+                      <>
+                        Tap <span className="font-bold">Share</span> then <span className="font-bold">Add to Home Screen</span>
+                      </>
+                    ) : (
+                      'Add to home screen for quick access'
+                    )}
                   </p>
                 </div>
               </div>
@@ -423,12 +431,14 @@ function OklahomaLAPApp() {
                 >
                   Not Now
                 </button>
-                <button
-                  onClick={handleInstall}
-                  className="px-4 py-2 text-sm font-medium bg-white text-blue-600 rounded-md hover:bg-blue-50 transition-colors duration-200"
-                >
-                  Install
-                </button>
+                {!/iPad|iPhone|iPod/.test(navigator.userAgent) && (
+                  <button
+                    onClick={handleInstall}
+                    className="px-4 py-2 text-sm font-medium bg-white text-blue-600 rounded-md hover:bg-blue-50 transition-colors duration-200"
+                  >
+                    Install
+                  </button>
+                )}
               </div>
             </div>
           </div>
