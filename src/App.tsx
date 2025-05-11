@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { 
   CheckCircle2, 
   XCircle, 
-  AlertCircle, 
   FileText,
   Loader2,
   Sun,
@@ -199,11 +198,6 @@ function OklahomaLAPApp() {
 
   // Add phone input handlers
   const handlePersonPhoneChange = (e: React.ChangeEvent<HTMLInputElement>, setInfo: React.Dispatch<React.SetStateAction<PersonInfo>>, field: string) => {
-    const formattedNumber = formatPhoneNumber(e.target.value);
-    setInfo(prev => ({ ...prev, [field]: formattedNumber }));
-  };
-
-  const handleOfficerPhoneChange = (e: React.ChangeEvent<HTMLInputElement>, setInfo: React.Dispatch<React.SetStateAction<OfficerInfo>>, field: string) => {
     const formattedNumber = formatPhoneNumber(e.target.value);
     setInfo(prev => ({ ...prev, [field]: formattedNumber }));
   };
