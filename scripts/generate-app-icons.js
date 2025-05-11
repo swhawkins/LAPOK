@@ -26,7 +26,7 @@ async function createAppIcon(size) {
   const { size: iconSize, name } = size;
   const outputPath = path.join(outputDir, `${name}.png`);
 
-  // Create a base image with the app logo
+  // Create a base image with the header logo
   const logo = await sharp(path.join(__dirname, '../public/images/ok-logo.svg'))
     .resize(Math.round(iconSize * 0.7), Math.round(iconSize * 0.7)) // Logo size relative to icon
     .toBuffer();
